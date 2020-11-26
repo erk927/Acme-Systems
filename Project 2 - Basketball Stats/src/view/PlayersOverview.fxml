@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PlayersOverviewController">
+   <children>
+      <TableView fx:id="playerTable" prefHeight="363.0" prefWidth="750.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="teamColumn" prefWidth="75.0" text="Team" />
+            <TableColumn fx:id="positionColumn" prefWidth="75.0" text="Position" />
+            <TableColumn fx:id="ageColumn" prefWidth="75.0" text="Age" />
+            <TableColumn fx:id="pointsPerGameColumn" prefWidth="75.0" text="PPG" />
+            <TableColumn fx:id="reboundsPerGameColumn" prefWidth="75.0" text="RPG" />
+            <TableColumn fx:id="assistsPerGameColumn" prefWidth="75.0" text="APG" />
+            <TableColumn fx:id="stealsPerGameColumn" prefWidth="75.0" text="SPG" />
+            <TableColumn fx:id="blocksPerGameColumn" prefWidth="75.0" text="BPG" />
+            <TableColumn fx:id="turnoversPerGameColumn" prefWidth="75.0" text="TPG" />
+        </columns>
+      </TableView>
+      <ButtonBar layoutX="353.0" layoutY="364.0" prefHeight="40.0" prefWidth="385.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="10.0">
+        <buttons>
+            <Button fx:id="stopComparing" disable="true" mnemonicParsing="false" onAction="#handleStopComparing" text="Stop Comparing" />
+          <Button fx:id="compareToOtherPlayers" mnemonicParsing="false" onAction="#handleComparePlayerToOthers" text="Compare to Other Players" />
+        </buttons>
+      </ButtonBar>
+   </children>
+</AnchorPane>
