@@ -4,7 +4,7 @@ public class HelloWorld {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello from Eclipse // Resolved conflict in eclipse with rebase");
+		System.out.println("Hello from Eclipse // Resolved conflict in eclipse with rebase. I think");
 		System.out.println("Hello from GitHub");
 	}
 
