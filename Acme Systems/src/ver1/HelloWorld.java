@@ -5,7 +5,7 @@ public class HelloWorld {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Hello from Eclipse");
-		System.out.println("Hello from GitHub // Edited this line on 11/26 from GitHub // Resolved conflict at merge request");
+		System.out.println("Hello from GitHub // Edited this in gituhb after editing in eclipse. Should cause collision");
 	}
 
 	public static void heyNow() {
