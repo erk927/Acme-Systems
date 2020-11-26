@@ -3,7 +3,6 @@ package model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 import view.PlayersOverviewController;
 import view.RootLayoutController;
@@ -13,50 +12,78 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MainApp extends Application{
 	
+	/** Variables **************************/
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    
 	private static ObservableList<Player> players = FXCollections.observableArrayList();
 	private static ObservableList<Team> teams = FXCollections.observableArrayList();
-	//Added this coment here, just wann see if it comes up in github
-	public static void main(String[] args) {
-        
-        //Scanner reads csv file with player stats
-        try {
-        Scanner input = new Scanner(new File("data.csv"));
+	private static ObservableList<String> teamCity = FXCollections.observableArrayList();
+	
+    /*****************************************************************************************************************
+     * Where it all begins
+    *****************************************************************************************************************/
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Basketball Statistics");
 
-        //Builds an arrayList of all the players with their info
-        //Gets player info and creates new player
-        while (input.hasNextLine()) {
-        	String[] s1 = input.nextLine().split(",");
-        	players.add(new Player(s1[0], s1[1], s1[2], Double.valueOf(s1[3]), Double.valueOf(s1[4]), Double.valueOf(s1[5]), Double.valueOf(s1[6]), Double.valueOf(s1[7]), Double.valueOf(s1[8]), Double.valueOf(s1[9])));
-    	  	}
-        }
-        catch(FileNotFoundException fnfe) {
-        	System.err.println(fnfe.getMessage());
-        }
-      
-        //Builds an arrayList of teams with their city name
-		ArrayList<String> teamCity = new ArrayList<String>();
+        initRootLayout();	
+        
+        showPlayersOverview();
+	}
+	
+	/*******************************************************************************************************************
+	 * Returns the main stage.
+	 * @return
+	 ******************************************************************************************************************/
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+	
+    /*****************************************************************************************************************
+     * main
+    *****************************************************************************************************************/
+	public static void main(String[] args) {
+            launch(args);
+	}
+	
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+//												Data Control Methods
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+    /*******************************************************************************************************************
+     * Populates players with player info from data.csv
+     ******************************************************************************************************************/
+    private static void populateplayers(Scanner input) {
+		//Gets player info and creates new player
+		while (input.hasNextLine()) {
+			String[] s1 = input.nextLine().split(",");
+				players.add(new Player(s1[0],s1[1],s1[2],Double.valueOf(s1[3]),Double.valueOf(s1[4]),
+						Double.valueOf(s1[5]),Double.valueOf(s1[6]),Double.valueOf(s1[7]),
+						Double.valueOf(s1[8]),Double.valueOf(s1[9])));
+			}
 		
-		for (int i = 0; i < players.size(); i++) 
+    	populateteams();//After players is filled, create teams and add players to their team
+    }
+    
+    /*******************************************************************************************************************
+     * Populates teams with player info from data.csv
+     ******************************************************************************************************************/
+    private static void populateteams() {
+    	teamCity.add("All Players");//Add as first option in list
+    	for (int i = 0; i < players.size(); i++) 
 		{
-			//If Team isn't on Teams list, add it
+			//If Team isn't on teamCity list, create team
 			if (!(teamCity.contains(players.get(i).getTeam()))) 
 			{
 				teamCity.add(players.get(i).getTeam());
-				Team team = new Team();
-				team.setCity(players.get(i).getTeam());
+				Team team = new Team(players.get(i).getTeam());
+				//team.setCity(players.get(i).getTeam());
 				teams.add(team);
 			}
 			//Adds player to the correct Team
@@ -66,17 +93,48 @@ public class MainApp extends Application{
 					teams.get(j).getRoster().add(players.get(i));
 				}
 			}
-			
-		}
-      		//Display Info for Teams or Players
-      		displayPlayer();
-      		//displayTeams();
-            launch(args);
+		}	
 	}
 	
-	// displayPlayer(): Prints all Player info ---------------------------
+    /**************************************************************** 
+     * Returns players list
+     ***************************************************************/
+	public ObservableList<Player> getPlayerData(){
+		return players;
+	}
+	
+    /**************************************************************** 
+     * Returns teams list
+     ***************************************************************/
+	public ObservableList<Team> getTeamData(){
+		return teams;
+	}
+	
+    /**************************************************************** 
+     * Returns teamCity list
+     ***************************************************************/
+    public ObservableList<String> getCityList(){
+    	return teamCity;
+    }
+    
+    /*******************************************************************************************************************
+     * Constructor: Reads data file and calls method that populates lists
+     ******************************************************************************************************************/
+	public MainApp() {
+        try {
+        //Scanner reads csv file with player stats
+        Scanner input = new Scanner(new File("data.csv"));
+        populateplayers(input);
+        }
+        catch(FileNotFoundException fnfe) {
+        	System.err.println(fnfe.getMessage());
+        }
+	}
+	
+    /**************************************************************** 
+     * Print players list
+     ***************************************************************/
 	public static void displayPlayer() {
-//		Collections.sort(p1);//Sorts by Player name
 		System.out.println("Number of Players: " + players.size());
 		System.out.printf("%-25s%-19s%-19s\n", "Name:", "Team:", "Position:");
 		for (int i = 0; i < players.size(); i++) {
@@ -84,7 +142,9 @@ public class MainApp extends Application{
 		}
 	}
 	
-	//displayTeams(): Print Team Roster ---------------------------------
+    /**************************************************************** 
+     * Print team list
+     ***************************************************************/
 	public static void displayTeams() {
 		for (int i = 0; i < teams.size(); i++) {
 			System.out.println("City: " + teams.get(i).getCity());
@@ -97,32 +157,12 @@ public class MainApp extends Application{
 		}
 	}
 	
-	public ObservableList<Player> getPlayerData(){
-		return players;
-	}
-	
-	public ObservableList<Team> getTeamData(){
-		return teams;
-	}
-	
-	public MainApp()
-	{
-		
-	}
-
-	@Override
-	public void start(Stage primaryStage) {
-		this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Basketball Statistics");
-
-        initRootLayout();	
-        
-        showPlayersOverview();
-	}
-	
-	/**
-     * Initializes the root layout
-     */
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+//																Views
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+    /*******************************************************************************************************************
+     * Initialize the Root layout
+     ******************************************************************************************************************/
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -148,9 +188,9 @@ public class MainApp extends Application{
 
     }
     
-    /**
+    /*******************************************************************************************************************
      * Shows the Players overview inside the root layout.
-     */
+     ******************************************************************************************************************/
     public void showPlayersOverview() {
         try {
             // Load person overview.
@@ -170,9 +210,9 @@ public class MainApp extends Application{
         }
     }
     
-    /**
+    /*******************************************************************************************************************
      * Shows the Teams overview inside the root layout.
-     */
+     ******************************************************************************************************************/
     public void showTeamsOverview() {
         try {
             // Load person overview.
@@ -191,13 +231,4 @@ public class MainApp extends Application{
             e.printStackTrace();
         }
     }
-    
-	/**
-	 * Returns the main stage.
-	 * @return
-	 */
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-
 }

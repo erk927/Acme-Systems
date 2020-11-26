@@ -1,6 +1,5 @@
 package view;
 
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
@@ -24,51 +23,37 @@ import model.Player;
 import model.Team;
 
 public class PlayersOverviewController {
-	@FXML
-	private TableView<Team> teamTable;
-    @FXML
-    private TableView<Player> playerTable;
-    @FXML
-    private TableColumn<Player, String> nameColumn;
-    @FXML
-    private TableColumn<Player, String> teamColumn;
-    @FXML
-    private TableColumn<Player, String> positionColumn;
-    @FXML
-    private TableColumn<Player, Number> ageColumn;
-    @FXML
-    private TableColumn<Player, Number> pointsPerGameColumn;
-    @FXML
-    private TableColumn<Player, Number> reboundsPerGameColumn;
-    @FXML
-    private TableColumn<Player, Number> assistsPerGameColumn;
-    @FXML
-    private TableColumn<Player, Number> stealsPerGameColumn;
-    @FXML
-    private TableColumn<Player, Number> blocksPerGameColumn;
-    @FXML
-    private TableColumn<Player, Number> turnoversPerGameColumn;
-    @FXML
-    private Button stopComparing;
-    @FXML
-    private Button compareToOtherPlayers;
-    Callback<TableColumn<Player, Number>, TableCell<Player, Number>> defaultCellFactory;
-
+	
+	/** Variables **************************/
+	@FXML private TableView<Team> teamTable;
+    @FXML private TableView<Player> playerTable;
+    @FXML private TableColumn<Player, String> nameColumn;
+    @FXML private TableColumn<Player, String> teamColumn;
+    @FXML private TableColumn<Player, String> positionColumn;
+    @FXML private TableColumn<Player, Number> ageColumn;
+    @FXML private TableColumn<Player, Number> pointsPerGameColumn;
+    @FXML private TableColumn<Player, Number> reboundsPerGameColumn;
+    @FXML private TableColumn<Player, Number> assistsPerGameColumn;
+    @FXML private TableColumn<Player, Number> stealsPerGameColumn;
+    @FXML private TableColumn<Player, Number> blocksPerGameColumn;
+    @FXML private TableColumn<Player, Number> turnoversPerGameColumn;
     
-    //ObservableList<String> teamList = FXCollections.observableArrayList("Hello", 
-    		//"World");
-    		//ObservableList<String> teamList = FXCollections.observableArrayList(MainApp.teamCity);
-    @FXML
-    private ComboBox<String> teamBox;
+    @FXML private Button stopComparing;
+    @FXML private Button compareToOtherPlayers;
+    
+    @FXML private ComboBox<String> teamBox;
+    
+    Callback<TableColumn<Player, Number>, TableCell<Player, Number>> defaultCellFactory;
+    
+//    ObservableList<String> teamList = FXCollections.observableArrayList(MainApp.teamCity);
 	
     // Reference to the main application
     private MainApp mainApp;
 
-    /**
+    /*************************************************************************************************************************
      * Is called by the main application to give a reference back to itself.
-     * 
      * @param mainApp
-     */
+     ************************************************************************************************************************/
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
@@ -76,11 +61,10 @@ public class PlayersOverviewController {
         playerTable.setItems(mainApp.getPlayerData());
     }
 
-    
-    /**
+    /*************************************************************************************************************************
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
-     */
+     ************************************************************************************************************************/
     @FXML
     private void initialize() {
         // Initialize the player table with the 10 columns.
@@ -105,24 +89,14 @@ public class PlayersOverviewController {
         turnoversPerGameColumn.setCellValueFactory(
                 cellData -> cellData.getValue().tpgProperty());
         
-        /*
-        // Clear person details.
-        showPersonDetails(null);
-
-        // Listen for selection changes and show the person details when changed.
-        playerTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showPersonDetails(newValue));
-        */
-        
-       // teamBox.setValue("Hello");
         //teamBox.setItems(teamList);
         
     }
     
-    /**
+    /*************************************************************************************************************************
      * Called when the user clicks the Compare to Other Players button.  Updates other players'
      * stats to show positive or negative changes in regards to the selected player.
-     */
+     ************************************************************************************************************************/
     @FXML
     private void handleComparePlayerToOthers() {
         Player selectedPerson = playerTable.getSelectionModel().getSelectedItem();
@@ -171,10 +145,9 @@ public class PlayersOverviewController {
         }
     }
     
-    /**
-     * Called when the user clicks the Compare to Other Players button.  Updates other players'
-     * stats to show positive or negative changes in regards to the selected player.
-     */
+    /*************************************************************************************************************************
+     * Called when the user clicks the Compare to Other Players button. Stops comparing players
+     ************************************************************************************************************************/
     @FXML
     private void handleStopComparing() {
         compareToOtherPlayers.setDisable(false);
@@ -188,6 +161,10 @@ public class PlayersOverviewController {
         blocksPerGameColumn.setCellFactory(defaultCellFactory);
         playerTable.setItems(mainApp.getPlayerData());
     }
+    
+    /*************************************************************************************************************************
+     * 
+     ************************************************************************************************************************/
     @FXML
     private void handleSelectedTeam() {
         Object selectedTeam = teamBox.getSelectionModel().getSelectedItem();
