@@ -28,7 +28,7 @@ public class MainApp extends Application{
     
 	private static ObservableList<Player> players = FXCollections.observableArrayList();
 	private static ObservableList<Team> teams = FXCollections.observableArrayList();
-	
+	//Added this coment here, just wann see if it comes up in github
 	public static void main(String[] args) {
         
         //Scanner reads csv file with player stats
