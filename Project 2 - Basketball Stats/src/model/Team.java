@@ -32,6 +32,12 @@ public class Team {
 		roster.addListener(new RosterUpdateListener(this));
 	}
 	
+	//Overloaded Constructor: Takes team Name
+	public Team(String city) {
+		this.city = new SimpleStringProperty(city);
+		this.numOfPlayers = new SimpleIntegerProperty(0);
+	}
+	
 	//Overloaded Constructors
 	Team(String city, int numPlayers){
 		this.city = new SimpleStringProperty(city);

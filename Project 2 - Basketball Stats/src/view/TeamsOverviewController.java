@@ -1,63 +1,43 @@
 package view;
 
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import model.MainApp;
-import model.Player;
 import model.Team;
 
 public class TeamsOverviewController {
 	
-    @FXML
-    private TableView<Team> teamTable;
-    @FXML
-    private TableColumn<Team, String> cityColumn;
-    @FXML
-    private TableColumn<Team, Number> playerCountColumn;
-    @FXML
-    private TableColumn<Team, Number> avgAgeColumn;
-    @FXML
-    private TableColumn<Team, Number> avgPointsPerGameColumn;
-    @FXML
-    private TableColumn<Team, Number> avgReboundsPerGameColumn;
-    @FXML
-    private TableColumn<Team, Number> avgAssistsPerGameColumn;
-    @FXML
-    private TableColumn<Team, Number> avgStealsPerGameColumn;
-    @FXML
-    private TableColumn<Team, Number> avgBlocksPerGameColumn;
-    @FXML
-    private TableColumn<Team, Number> avgTurnoversPerGameColumn;
-    @FXML
-    private Button stopComparing;
-    @FXML
-    private Button compareToOtherTeams;
+    @FXML private TableView<Team> teamTable;
+    @FXML private TableColumn<Team, String> cityColumn;
+    @FXML private TableColumn<Team, Number> playerCountColumn;
+    @FXML private TableColumn<Team, Number> avgAgeColumn;
+    @FXML private TableColumn<Team, Number> avgPointsPerGameColumn;
+    @FXML private TableColumn<Team, Number> avgReboundsPerGameColumn;
+    @FXML private TableColumn<Team, Number> avgAssistsPerGameColumn;
+    @FXML private TableColumn<Team, Number> avgStealsPerGameColumn;
+    @FXML private TableColumn<Team, Number> avgBlocksPerGameColumn;
+    @FXML private TableColumn<Team, Number> avgTurnoversPerGameColumn;
+    @FXML private Button stopComparing;
+    @FXML private Button compareToOtherTeams;
+    
     Callback<TableColumn<Team, Number>, TableCell<Team, Number>> defaultCellFactory;
 
-	
     // Reference to the main application
     private MainApp mainApp;
 
-    /**
+    /*************************************************************************************************************************
      * Is called by the main application to give a reference back to itself.
-     * 
      * @param mainApp
-     */
+     ************************************************************************************************************************/
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
 
@@ -66,10 +46,10 @@ public class TeamsOverviewController {
     }
 
     
-    /**
+    /*************************************************************************************************************************
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
-     */
+     ************************************************************************************************************************/
     @FXML
     private void initialize() {
         // Initialize the player table with the 10 columns.
@@ -102,10 +82,10 @@ public class TeamsOverviewController {
         */
     }
     
-    /**
+    /*************************************************************************************************************************
      * Called when the user clicks the Compare to Other Players button.  Updates other players'
      * stats to show positive or negative changes in regards to the selected player.
-     */
+     ************************************************************************************************************************/
     @FXML
     private void handleCompareTeamToOthers() {
         Team selectedTeam = teamTable.getSelectionModel().getSelectedItem();
@@ -156,10 +136,10 @@ public class TeamsOverviewController {
         }
     }
     
-    /**
+    /*************************************************************************************************************************
      * Called when the user clicks the Compare to Other Players button.  Updates other players'
      * stats to show positive or negative changes in regards to the selected player.
-     */
+     ************************************************************************************************************************/
     @FXML
     private void handleStopComparing() {
         compareToOtherTeams.setDisable(false);
@@ -176,30 +156,30 @@ public class TeamsOverviewController {
     }
     
 
-/*
- * https://stackoverflow.com/questions/30889732/javafx-tableview-change-row-color-based-on-column-value
- * Used/Edited code from an answer here.
- */
-private void customiseFactory(TableColumn<Team, Number> calltypel) {
-    calltypel.setCellFactory(column -> {
-        return new TableCell<Team, Number>() {
-            @Override
-            protected void updateItem(Number item, boolean empty) {
-                super.updateItem(item, empty);
-
-                setText(empty ? "" : getItem().toString());
-                setGraphic(null);
-
-                if (!isEmpty()) {
-
-                    if(item.doubleValue() < 0)
-                        setStyle("-fx-background-color:lightcoral");
-                    else if (item.doubleValue() > 0)
-                        setStyle("-fx-background-color:lightgreen");
-                }
-            }
-        };
-    });
-}
+	/*
+	 * https://stackoverflow.com/questions/30889732/javafx-tableview-change-row-color-based-on-column-value
+	 * Used/Edited code from an answer here.
+	 */
+	private void customiseFactory(TableColumn<Team, Number> calltypel) {
+	    calltypel.setCellFactory(column -> {
+	        return new TableCell<Team, Number>() {
+	            @Override
+	            protected void updateItem(Number item, boolean empty) {
+	                super.updateItem(item, empty);
+	
+	                setText(empty ? "" : getItem().toString());
+	                setGraphic(null);
+	
+	                if (!isEmpty()) {
+	
+	                    if(item.doubleValue() < 0)
+	                        setStyle("-fx-background-color:lightcoral");
+	                    else if (item.doubleValue() > 0)
+	                        setStyle("-fx-background-color:lightgreen");
+	                }
+	            }
+	        };
+	    });
+	}
 
 }
