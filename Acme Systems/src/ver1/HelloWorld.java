@@ -4,8 +4,9 @@ public class HelloWorld {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello from Eclipse // Conflict from master");
-		System.out.println("Hello from GitHub // Ryabba dabba doo");
+		System.out.println("Hello from Eclipse ** Fixed code directly not in the interactive thing");
+		System.out.println("Hello from GitHub ** Same as above ");
+
 	}
 
 	public static void heyNow() {
